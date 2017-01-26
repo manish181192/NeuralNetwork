@@ -22,19 +22,23 @@ class Activation_Function:
         elif self.id == ACTIVATION_FUNCTION.SOFTMAX:
             # softmax
             if self.exp_list == None:
+                self.exp_list = []
                 self.calc_exp_list(ip)
             return self.softmax(index)
 
     # SIGMOID ACTIVATION FUNCTION
     def sigmoid(self, ip):
-        if ip == 0:
-            return 1
-        return 1 / (1 + m.exp(-1 * ip))
+        length = len(ip)
+        out = np.zeros(length)
+        for i in range(length):
+            out[i] = 1 / (1 + np.exp(-1 * ip[i]))
+        return out
 
     def calc_exp_list(self, ip):
-        self.exp_list = np.exp(ip)
+        for i in range(len(ip)):
+            self.exp_list.append(m.exp(ip[i]))
         self.sum_exponentials = np.sum(self.exp_list)
-        print("Softmax : "+self.exp_list)
+        # print("Softmax : "+self.exp_list)
 
     #SOFTMAX ACTIVATION FUNCTION
     def softmax(self, k):
@@ -44,20 +48,20 @@ class Activation_Function:
     ##### GRADIENT CALCULATOR #####
     def get_gradient(self, ip, out, out_activated):
         if self.id == ACTIVATION_FUNCTION.SIGMOID:
-            self.sigmoid_gradient(ip, out, out_activated)
+            return self.sigmoid_gradient(ip, out, out_activated)
         if self.id == ACTIVATION_FUNCTION.SOFTMAX:
-            self.softmax_gradient(ip, out, out_activated)
+            return self.softmax_gradient(ip, out, out_activated)
 
-    def sigmoid_gradient(self, ip, out, out_activated, weight, index):
+    def sigmoid_gradient(self, ip, out, out_activated):
         one = np.ones(len(out_activated))
-        one_minus_sigmoid = one - out_activated
-        sig_mul_one_minus_sig = out_activated*one_minus_sigmoid
+        one_minus_sigmoid = np.subtract(one ,out_activated)
+        sig_mul_one_minus_sig = np.multiply(out_activated,one_minus_sigmoid)
 
-        gradient = ip * sig_mul_one_minus_sig
-
+        gradient = np.multiply(sig_mul_one_minus_sig, ip)
         return gradient
 
     def softmax_gradient(self, ip, out, out_activated):
         coeff = -1*out_activated/self.sum_exponentials
-        gradient = coeff*ip
+        #
+        gradient = np.multiply(coeff, ip)
         return gradient

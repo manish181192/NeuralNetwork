@@ -53,7 +53,7 @@ class NeuralNetwork:
         self.output_layer.feed_values(hidden_layer_out_1)
         self.output_layer.process_input()
         prob_dist = self.output_layer.get_output()
-        print(prob_dist)
+        print("Probability Distribution"+str(prob_dist))
 
     #Perform backpropagation
     def back_propagation_datapoint(self):

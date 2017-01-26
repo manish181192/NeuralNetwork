@@ -8,4 +8,5 @@ output_classes = 1
 
 nn = NeuralNetwork(no_of_input_features= no_of_features, hidden_layer_sizes=hidden_layer_sizes, output_classes=output_classes)
 nn.set_datapoint(train_data[0])
-print(nn.forward_feed_datapoint())
+nn.forward_feed_datapoint()
+nn.back_propagation_datapoint()
