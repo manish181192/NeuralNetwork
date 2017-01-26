@@ -53,11 +53,12 @@ class Activation_Function:
             return self.softmax_gradient(ip, out, out_activated)
 
     def sigmoid_gradient(self, ip, out, out_activated):
-        one = np.ones(len(out_activated))
-        one_minus_sigmoid = np.subtract(one ,out_activated)
-        sig_mul_one_minus_sig = np.multiply(out_activated,one_minus_sigmoid)
-
-        gradient = np.multiply(sig_mul_one_minus_sig, ip)
+        # one = np.ones(len(out_activated))
+        # one_minus_sigmoid = np.subtract(one ,out_activated)
+        # sig_mul_one_minus_sig = np.multiply(out_activated,one_minus_sigmoid)
+        coeff_ = 1-out_activated
+        coeff = out_activated*coeff_
+        gradient = np.multiply(coeff, ip)
         return gradient
 
     def softmax_gradient(self, ip, out, out_activated):

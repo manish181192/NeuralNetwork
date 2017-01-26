@@ -27,7 +27,7 @@ class Layer:
             self.activation_function = activation_function
             self.weight_input = ip_weight
             self.ip_size = ip_weight.input_nodes
-            self.gradients = np.zeros(self.ip_size)
+            self.gradients = np.zeros(shape= (self.ip_size, self.size))
             self.ip = np.zeros(self.ip_size)
             self.h_activated = np.zeros(self.size)
             self.h = np.zeros(self.size)
@@ -57,13 +57,13 @@ class Layer:
             # calulate softmax for each class
             self.h = self.calculate_hypothesis(input_list=self.ip, weights_list=self.weight_input.weights)
             for i in range(self.size):
-                self.h_activated = self.activation_function.activate(self.h, index = i)
+                self.h_activated[i] = self.activation_function.activate(self.h, index = i)
 
     #   Compute gradient for each node output wrt Its Input
     def compute_gradient(self):
         for i in range(self.size):
             gredient_ = self.activation_function.get_gradient(self.ip, self.h[i], self.h_activated[i])
-            self.gradients = np.add(self.gradients, gredient_)
+            self.gradients[:,i] = gredient_
 
     def update_weights(self):
             self.weight_input.update_weights(self.gradients)

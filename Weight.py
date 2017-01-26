@@ -1,4 +1,5 @@
 import numpy as np
+import configuration as config
 class Weight:
 
     def __init__(self, ipNodes, outNodes, mean = 0, std_dev = 0):
@@ -14,4 +15,4 @@ class Weight:
             self.weights[i,:] = np.random.normal(self.mean, self.std_dev, self.out_nodes)
 
     def update_weights(self, update):
-        self.weights = self.weights + update
+        self.weights = np.add(self.weights,np.multiply(config.learning_rate,update))

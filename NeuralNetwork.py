@@ -1,12 +1,12 @@
 from Layer import Layer,LAYER_TYPE
 from Weight import Weight
 from Activation_functions import ACTIVATION_FUNCTION,Activation_Function
-
+import numpy as np
 #Neural Network
 class NeuralNetwork:
 
     current_input = []
-
+    current_label =[]
     #### ARCHITECTURE ##
     no_of_input_features = None
     # no of elements = no of hidden layers
@@ -38,10 +38,11 @@ class NeuralNetwork:
                                   ip_weight= self.W2,
                                   activation_function= Activation_Function(ACTIVATION_FUNCTION.SOFTMAX))
 
-    def set_datapoint(self, input_datapoint):
+    def set_datapoint(self, input_datapoint, label):
         if len(input_datapoint) != self.no_of_input_features:
             return None
         self.current_input = input_datapoint
+        self.current_label = label
 
     #Perform forward feed
     def forward_feed_datapoint(self):
@@ -54,6 +55,7 @@ class NeuralNetwork:
         self.output_layer.process_input()
         prob_dist = self.output_layer.get_output()
         print("Probability Distribution"+str(prob_dist))
+        print("LOSS:" +str(np.square(self.current_label - prob_dist)))
 
     #Perform backpropagation
     def back_propagation_datapoint(self):
@@ -63,3 +65,8 @@ class NeuralNetwork:
         #compute gradient for hidden layer
         self.h1.compute_gradient()
         self.h1.update_weights()
+
+    def train(self, no_of_epochs):
+        for i in range(no_of_epochs):
+            self.forward_feed_datapoint()
+            self.back_propagation_datapoint()
