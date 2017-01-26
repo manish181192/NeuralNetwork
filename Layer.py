@@ -10,7 +10,7 @@ class LAYER_TYPE(Enum):
 class Layer:
 
     size = 0 # no of perceptrons
-    # ip_size = 0 # no of nodes in previous layer
+    ip_size = 0 # no of nodes in previous layer
     activation_function = None # activation function of Layer
     nodes = [] # Perceptrons
     ip = [] # ip values for the layer
@@ -24,7 +24,7 @@ class Layer:
         self.size = no_of_nodes
         self.activation_function = activation_function
         self.weight_input = ip_weight
-        # self.ip_size = len(ip_weight[:,0])
+        self.ip_size = len(ip_weight[:,0])
         self.gradients = np.zeros(self.ip_size)
 
         if layer_type == LAYER_TYPE.HIDDEN:

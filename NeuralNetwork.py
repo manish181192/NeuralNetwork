@@ -55,10 +55,11 @@ class NeuralNetwork:
         prob_dist = self.output_layer.get_output()
         print(prob_dist)
 
-    # #Perform backpropagation
-    # def back_propagation_datapoint(self):
-    #
-    #     # compute gradient for output
-    #     # outer layer - activation function's gradient
-    #
-    #     #
+    #Perform backpropagation
+    def back_propagation_datapoint(self):
+        # compute gradient for output
+        self.output_layer.compute_gradient()
+        self.output_layer.update_weights()
+        #compute gradient for hidden layer
+        self.h1.compute_gradient()
+        self.h1.update_weights()

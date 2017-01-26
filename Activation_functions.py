@@ -58,7 +58,6 @@ class Activation_Function:
         return gradient
 
     def softmax_gradient(self, ip, out, out_activated):
-        sum_exponentials = self.sum_exponentials
-        coeff = -1*out/sum_exponentials
-
-        return 0
+        coeff = -1*out_activated/self.sum_exponentials
+        gradient = coeff*ip
+        return gradient
